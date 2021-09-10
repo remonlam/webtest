@@ -1,0 +1,42 @@
+version: '2.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8383:80
+    environment:
+      PUID: 1000
+      PGID: 100
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: daZX0CGaM9AwKQsxS6wfZ0xoI3X1OcBGrYHP88bZxQC5Mfpa@8U9tfpZ
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_dev:/var/www/html
+
+    links:
+      - db:db
+
+  db:
+    image: ghcr.io/linuxserver/mariadb:alpine
+    environment:
+      PUID: 1000
+      PGID: 100
+      MYSQL_ROOT_PASSWORD: npAXCyrw8384jnqc9ZJyZzuK7CGnA3Q0rFKBQ4F4TfwFsCwYUSkq
+      TZ: Europe/Amsterdam
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: daZX0CGaM9AwKQsxS6wfZ0xoI3X1OcBGrYHP88bZxQC5Mfpa@8U9tfpZ
+    volumes:
+      - db_dev:/config
+
+    ports:
+      - 3333:3306
+    restart: unless-stopped
+
+volumes:
+  wordpress_dev:
+  db_dev:
